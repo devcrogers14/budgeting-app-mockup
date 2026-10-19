@@ -50,3 +50,10 @@ The server binds only to this computer. It blocks access to `.env` and server so
 
 
 See [the project README](../README.md) for the current file layout and setup.
+
+
+## Budgetron chat scope
+
+Budgetron helps only with this app and the budget tracked in it: accounts, spending, allocations, goals, calendar entries, and using its features. Off-topic questions receive a fixed reply directing the user back to those topics. Mixed requests receive help with only their app-budget portion.
+
+The server owns the policy in `server/chat-policy.mjs`, requests a structured scope decision with each answer, and validates it before returning text. It discards answers marked outside scope and rejects malformed output. Budget snapshots are supplied as untrusted reference data, separately from the trusted system instructions. These model-based guardrails reduce off-topic replies; they are not a mathematical guarantee against every possible prompt.

@@ -7,11 +7,11 @@
   const robot='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="6" width="18" height="15" rx="5"/><path d="M12 6V3m-3 13h6"/><circle cx="8" cy="12" r="1" fill="currentColor"/><circle cx="16" cy="12" r="1" fill="currentColor"/></svg>';
   const launcher=document.createElement('button');launcher.className='chat-launcher';launcher.type='button';launcher.setAttribute('aria-label','Chat with Budgetron');launcher.setAttribute('aria-expanded','false');launcher.setAttribute('aria-controls','budgetron-chat');launcher.innerHTML=robot+'<span>Ask Budgetron</span>';
   const panel=document.createElement('section');panel.id='budgetron-chat';panel.className='budgetron-chat';panel.hidden=true;panel.setAttribute('role','dialog');panel.setAttribute('aria-labelledby','chat-title');
-  panel.innerHTML=`<div class="chat-header"><span class="chat-avatar">${robot}</span><div><h2 id="chat-title">Budgetron AI</h2><p>Your budgeting sidekick</p></div><button type="button" class="text-button chat-close" aria-label="Close chat">×</button></div>
+  panel.innerHTML=`<div class="chat-header"><span class="chat-avatar">${robot}</span><div><h2 id="chat-title">Budgetron AI</h2><p>Your app and budget guide</p></div><button type="button" class="text-button chat-close" aria-label="Close chat">×</button></div>
     <div class="chat-toolbar"><span class="chat-provider">Powered by Gemini</span><button type="button" class="text-button" id="chat-new">New Chat</button></div>
     <div id="chat-messages" class="chat-messages" role="log" aria-label="Conversation with Budgetron" aria-live="polite" aria-relevant="additions"></div>
     <div class="chat-composer"><p id="chat-connection" class="chat-connection" role="status"></p><label class="chat-share"><input id="chat-share-budget" type="checkbox" checked> Include my sample budget</label>
-    <form id="chat-form"><label class="sr-only" for="chat-input">Message Budgetron</label><textarea id="chat-input" rows="2" maxlength="2000" placeholder="Ask about your spending, goals, or anything else…" required></textarea><button id="chat-send" type="submit" aria-label="Send message">↑</button></form><p class="chat-footnote">AI can make mistakes. Shared messages and sample budget data go to Google.</p></div>`;
+    <form id="chat-form"><label class="sr-only" for="chat-input">Message Budgetron</label><textarea id="chat-input" rows="2" maxlength="2000" placeholder="Ask about this app or your demo budget…" required></textarea><button id="chat-send" type="submit" aria-label="Send message">↑</button></form><p class="chat-footnote">AI can make mistakes. Shared messages and sample budget data go to Google.</p></div>`;
   document.body.append(launcher,panel);
   const messages=panel.querySelector('#chat-messages'),input=panel.querySelector('#chat-input'),send=panel.querySelector('#chat-send'),newChat=panel.querySelector('#chat-new'),connection=panel.querySelector('#chat-connection'),share=panel.querySelector('#chat-share-budget');
   try{share.checked=sessionStorage.getItem('budgetron-share-budget')!=='false';}catch{}
@@ -40,7 +40,7 @@
     if(!history.length){
       const welcome=document.createElement('div');welcome.className='chat-welcome';
       const title=document.createElement('h3');title.textContent='Your money. Your questions.';
-      const subtitle=document.createElement('p');subtitle.textContent='A little clarity starts with a question. Choose one below or ask your own.';
+      const subtitle=document.createElement('p');subtitle.textContent='I help with this app and the budget you track here. Ask about spending, savings goals, accounts, or your calendar.';
       welcome.append(title,subtitle);
       for(const text of ['Do I have enough saved for an emergency?','Does my budget match my spending?','Am I spending more than I earn?','How can I reach my savings goal?','What payments do I have coming up?']){
         const button=document.createElement('button');button.type='button';button.className='chat-suggestion secondary';

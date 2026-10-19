@@ -33,7 +33,7 @@ The root contains only the start page, launcher, documentation, and configuratio
 - **css files/** — reusable layout, themes, and chat styles.
 - **javascript files/** — data/storage, transaction editing, savings-goal dialogs, chart drawing, theme controls, navigation, and AI chat.
 - **server/** — the local Node.js server and Gemini API requests.
-- **tests/** — server, route, and asset checks. Run node --test tests/server.test.mjs.
+- **tests/** — server, route, and asset checks. Run node --test.
 - **docs/FEATURES.md** — the website's feature guide.
 
 Page scripts contain their own rendering and controls. Reusable scripts load first, then the current page initializes itself. All pages share the same browser storage key, so accounts, purchases, goals, and preferences stay consistent. The browser's file-based demo and local-server demo use separate storage.
@@ -41,3 +41,10 @@ Page scripts contain their own rendering and controls. Reusable scripts load fir
 The server supports the previous page URLs and preserves their query parameters. Navigation and stylesheet/script paths also work when index.html is opened directly as a file. The server serves only the public website files; private configuration and server source stay inaccessible through HTTP.
 
 This is a class-project mockup using pretend money. It does not connect to real banks or move funds. See docs/FEATURES.md for AI service details and limits.
+
+
+## Budgetron chat scope
+
+Budgetron helps only with this app and the budget tracked in it: accounts, spending, allocations, goals, calendar entries, and using its features. Off-topic questions receive a fixed reply directing the user back to those topics. Mixed requests receive help with only their app-budget portion.
+
+The server owns the policy in `server/chat-policy.mjs`, requests a structured scope decision with each answer, and validates it before returning text. It discards answers marked outside scope and rejects malformed output. Budget snapshots are supplied as untrusted reference data, separately from the trusted system instructions. These model-based guardrails reduce off-topic replies; they are not a mathematical guarantee against every possible prompt.

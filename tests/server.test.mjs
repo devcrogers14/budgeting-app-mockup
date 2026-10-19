@@ -52,7 +52,7 @@ test('organized website: pages, shared assets, old links, and chat API',async(t)
     assert.equal((await fetch(base,{redirect:'manual'})).headers.get('location'),'/pages/overview/overview.html');
   });
   await t.test('private files, traversal and server source are blocked',async()=>{
-    for(const path of ['/.env','/.env.example','/.git/config','/server/server.mjs','/tests/server.test.mjs','/README.md','/javascript files/../server/server.mjs','/pages/overview/../../.env','/assets/js/app.js']){
+    for(const path of ['/.env','/.env.example','/.git/config','/server/server.mjs','/server/chat-policy.mjs','/tests/server.test.mjs','/README.md','/javascript files/../server/server.mjs','/pages/overview/../../.env','/assets/js/app.js']){
       assert.equal((await fetch(base+path)).status,404,path);
     }
     assert.equal((await fetch(`${base}/pages/goals/goals.html`,{method:'POST'})).status,405);
