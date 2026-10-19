@@ -19,8 +19,8 @@
     document.documentElement.style.setProperty('--page-direction',saved.direction===-1?'-1':'1');
     if(reducedMotion.matches || nativeTransitions || !main.animate)return;
     main.animate([
-      {opacity:0,transform:`translateX(${saved.direction*64}px)`},
-      {opacity:1,transform:'translateX(0)'},
+      {transform:`translateX(${saved.direction*64}px)`},
+      {transform:'translateX(0)'},
     ],{duration:380,easing:'cubic-bezier(.22,1,.36,1)'});
   }
   enter();
@@ -44,8 +44,8 @@
     event.preventDefault();
     leaving=true;
     exitAnimation=main.animate([
-      {opacity:1,transform:'translateX(0)'},
-      {opacity:0,transform:`translateX(${-direction*48}px)`},
+      {transform:'translateX(0)'},
+      {transform:`translateX(${-direction*48}px)`},
     ],{duration:200,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});
     exitAnimation.finished.catch(()=>{}).then(()=>location.assign(destination.href));
   });
