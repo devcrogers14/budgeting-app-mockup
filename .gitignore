@@ -3,3 +3,7 @@
 !.env.example
 node_modules/
 *.log
+
+# Local editor settings
+.vscode/
+.idea/

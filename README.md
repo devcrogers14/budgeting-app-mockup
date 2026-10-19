@@ -35,6 +35,24 @@ Use the navigation links to switch pages. **Dark Mode** is at the top of every p
 - **Pie Chart page:** Select a slice or category to see its amount, share of total spending, purchase count, average purchase, largest purchase, share of monthly income, and dated purchase details. Colors follow your selected theme. The original Home, Food, Transport, and Other categories are preserved from the sample budget. The Overview chart also lets you select slices and open the matching details page.
 - **Spending Info page:** See totals, category amounts, recorded purchases, and a short summary calculated from your data.
 
+## Project structure
+
+```text
+Budgeting App Mockup/
+  index.html, accounts.html, calendar.html, goals.html, pie.html, spending.html
+  assets/
+    css/styles.css
+    js/app.js, chat.js, navigation.js, theme.js
+  server.mjs
+  Start Budgetron.bat
+  README.md
+  .env.example
+  .gitignore
+  .env                 (private, local only)
+```
+
+The HTML pages stay at the project root so local-file navigation continues to work. Styles and browser scripts live in `assets`. The local server serves only the website pages and assets. To enable AI chat after cloning, copy `.env.example` to `.env` and add your own key.
+
 ## Files
 
 | File | Purpose |
@@ -45,15 +63,15 @@ Use the navigation links to switch pages. **Dark Mode** is at the top of every p
 | `calendar.html` | Payment calendar and purchase entry |
 | `pie.html` | Interactive spending chart and category details |
 | `spending.html` | Monthly spending totals and purchase list |
-| `styles.css` | Simple layout, colors, and phone layout |
-| `app.js` | Sample data, pie chart, form actions, calendar, and browser storage |
-| `navigation.js` | Smooth page transitions |
-| `chat.js` | Chat panel, conversation state, and optional budget snapshot |
+| `assets/css/styles.css` | Simple layout, colors, and phone layout |
+| `assets/js/app.js` | Sample data, pie chart, form actions, calendar, and browser storage |
+| `assets/js/navigation.js` | Smooth page transitions |
+| `assets/js/chat.js` | Chat panel, conversation state, and optional budget snapshot |
 | `server.mjs` | Local website server and private Gemini API requests |
 | `.env` | Your private Gemini key, model, and port; never served to the browser |
 | `.env.example` | Setup template without a real key |
 | `Start Budgetron.bat` | Start the local AI-enabled website |
-| `theme.js` | Dark mode toggle and saved theme preference |
+| `assets/js/theme.js` | Dark mode toggle and saved theme preference |
 | `README.md` | This feature guide |
 
 Changes are stored in the current browser when browser storage is available. Use “Reset demo” to restore the example. Saving may behave differently when opened as a local file in different browsers. This is a class-project mockup: no real bank connections, passwords, payment processing, or automatic transfers.
