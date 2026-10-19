@@ -1,88 +1,42 @@
-# Budgetron 3000™ — Budgeting MVP
+# Budgetron 3000 — Website mockup
 
-A simple budgeting mockup with a sample profile earning **$3,000 per month**. The cream background, brown text, green icons, rounded navigation, and page layouts are inspired by **CS 100 App Mock-Up.pdf**.
+A budgeting website with demo accounts, savings goals, spending charts, a payment calendar, and optional Gemini chat.
 
-## Open it
+## Open the website
 
-For the budgeting demo alone, double-click **index.html**. For real AI chat:
+Double-click **index.html** for the budgeting demo. It opens the Overview page.
 
-1. Get your own Gemini API key from [Google AI Studio](https://aistudio.google.com/apikey).
-2. Open **.env** in this project and replace `PASTE_YOUR_KEY_HERE` after `GEMINI_API_KEY=` with your key. Save the file. Keep `.env` private.
-3. Double-click **Start Budgetron.bat** and leave its window open. It uses Node.js 22 or newer (or the Node runtime installed with Codex on this computer).
-4. Open **http://127.0.0.1:3000** and click **Ask Budgetron**.
+For AI chat, install Node.js 22 or newer, copy **.env.example** to **.env**, add your Gemini API key, then double-click **Start Budgetron.bat**. Open the local URL printed by the server. The API key stays on your computer; never commit .env.
 
-The key is read on each chat request, so saving `.env` does not require restarting the server. If port 3000 is busy, change `PORT` in `.env`, restart the launcher, and open the URL it prints.
+You can also run the server from the project root:
 
-The server website and a double-clicked HTML file use separate browser storage. Your original file-based demo data is retained at its old location; the local-server version starts with its own sample profile.
-
-Use the navigation links to switch pages. **Dark Mode** is at the top of every page. Choose **Cream, Sage, Ocean, or Rose** from the Theme menu; every theme supports light and dark mode. Both choices are remembered across pages and browser restarts. The first visit follows your device's light/dark preference.
-
-## Features
-
-- **Page transitions:** Tabs slide smoothly between pages. Normal browser links, Back/Forward, and reduced-motion preferences are supported.
-- **Calendar hover:** Dates show a contrasting grey highlight when hovered or focused, in both light and dark mode.
-
-- **Transaction editing:** Use Edit or Delete beside a purchase or planned payment in the calendar, spending list, category details, or recent activity. Edit the description, amount, date, category, or purchase/planned type. Totals, charts, and calendar dates update together. Delete asks for confirmation. Changes affect demo records; they do not move money.
-- **Real AI chat:** The floating Ask Budgetron button opens a Gemini-powered conversation with suggested questions, conversation history for this browser tab, New Chat, and an option to include the current sample budget. The snapshot includes income, spending totals, accounts, savings goals, recent purchases, and upcoming bills. The AI can explain and suggest, but cannot edit transactions or move money. Use the Edit/Delete controls for changes.
-- **Goals page:** Add and switch between savings goals, edit targets, set optional completion dates, and track a progress ring. Each goal can follow all savings accounts or one selected savings account. The selected goal also appears on Overview. Goals track balances; they do not reserve money, so goals following the same account share its progress. The next-step panel calculates a rough monthly savings estimate; it is not an AI service.
-- **Spending pie chart:** Both charts have clickable slices, visible category labels, and percentages to one decimal place. Select a slice with the mouse, or use Tab and Enter/Space. The example starts with $1,490 spent and $1,510 left from income.
-- **Raised slices:** Hover over a slice to lift it with a soft glow and shadow; moving away lowers it. Click to keep it selected and raised while viewing its details. Its percentage moves with it. The effect follows your theme and respects reduced-motion preferences.
-- **Account allocations:** Edit the monthly amount planned for each account, then save. The total cannot exceed $3,000. Planning allocations does not move money.
-- **Multiple accounts:** Start with checking ($2,200), savings ($800), and a credit card ($150 owed). Add more pretend checking, savings, or credit card accounts using “Connect demo account.”
-- **Card view:** Stacked illustrative cards lift and tilt with a soft shadow and shine on mouse hover, like a wallet. Click or use the keyboard to select a card and keep it raised while viewing its balance and monthly allocation. The effect supports dark mode and reduced motion. No real card numbers are stored.
-- **Automatic transfer mockup:** Expand “Automatic transfer,” choose accounts, an amount, and a date, and save the rule. “Simulate transfer” updates the fake balances and advances a monthly rule. Transfers to a credit card reduce the amount owed. Nothing runs in the background or moves real money.
-- **Payment calendar:** View planned payments, purchases, and the next demo transfer. Select a day, use Today, or show All events. Add future bills or unexpected purchases. Purchases update the current-month spending chart; planned payments do not count as spending. Calendar entries do not change bank balances.
-- **Pie Chart page:** Select a slice or category to see its amount, share of total spending, purchase count, average purchase, largest purchase, share of monthly income, and dated purchase details. Colors follow your selected theme. The original Home, Food, Transport, and Other categories are preserved from the sample budget. The Overview chart also lets you select slices and open the matching details page.
-- **Spending Info page:** See totals, category amounts, recorded purchases, and a short summary calculated from your data.
-
-## Project structure
-
-```text
-Budgeting App Mockup/
-  index.html, accounts.html, calendar.html, goals.html, pie.html, spending.html
-  assets/
-    css/styles.css
-    js/app.js, chat.js, navigation.js, theme.js
-  server.mjs
-  Start Budgetron.bat
-  README.md
-  .env.example
-  .gitignore
-  .env                 (private, local only)
+```sh
+node server/server.mjs
 ```
 
-The HTML pages stay at the project root so local-file navigation continues to work. Styles and browser scripts live in `assets`. The local server serves only the website pages and assets. To enable AI chat after cloning, copy `.env.example` to `.env` and add your own key.
 
-## Files
+## Where files belong
 
-| File | Purpose |
-| --- | --- |
-| `index.html` | Overview: income, savings goal, and spending chart |
-| `goals.html` | Goals: edit your savings target and track progress |
-| `accounts.html` | Account allocations, demo connections, and transfers |
-| `calendar.html` | Payment calendar and purchase entry |
-| `pie.html` | Interactive spending chart and category details |
-| `spending.html` | Monthly spending totals and purchase list |
-| `assets/css/styles.css` | Simple layout, colors, and phone layout |
-| `assets/js/app.js` | Sample data, pie chart, form actions, calendar, and browser storage |
-| `assets/js/navigation.js` | Smooth page transitions |
-| `assets/js/chat.js` | Chat panel, conversation state, and optional budget snapshot |
-| `server.mjs` | Local website server and private Gemini API requests |
-| `.env` | Your private Gemini key, model, and port; never served to the browser |
-| `.env.example` | Setup template without a real key |
-| `Start Budgetron.bat` | Start the local AI-enabled website |
-| `assets/js/theme.js` | Dark mode toggle and saved theme preference |
-| `README.md` | This feature guide |
+Each page has its own folder and its own HTML, CSS, and JavaScript. To change a page, open its folder:
 
-Changes are stored in the current browser when browser storage is available. Use “Reset demo” to restore the example. Saving may behave differently when opened as a local file in different browsers. This is a class-project mockup: no real bank connections, passwords, payment processing, or automatic transfers.
+| Page | Folder | Files |
+| --- | --- | --- |
+| Overview | pages/overview/ | overview.html, overview.css, overview.js |
+| Savings goals | pages/goals/ | goals.html, goals.css, goals.js |
+| Accounts | pages/accounts/ | accounts.html, accounts.css, accounts.js |
+| Spending chart | pages/spending-chart/ | spending-chart.html, spending-chart.css, spending-chart.js |
+| Spending information | pages/spending/ | spending.html, spending.css, spending.js |
+| Payment calendar | pages/calendar/ | calendar.html, calendar.css, calendar.js |
 
-The PDF is used as a visual reference. Its blank panels are filled with the working demo features above. The app uses the name “Budgetron 3000™” and retains the $3,000 sample income, separate pages, and dark mode. The branding uses a small robot wordmark and the ™ symbol. It uses plain HTML, CSS, JavaScript, inline vector icons, and a small dependency-free Node.js server for real AI. No framework or package installation is needed.
+The root contains only the start page, launcher, documentation, and configuration.
 
+- **shared/** — reusable styles, data/storage, transaction editing, savings-goal dialogs, chart drawing, theme controls, navigation, and AI chat.
+- **server/** — the local Node.js server and Gemini API requests.
+- **tests/** — server, route, and asset checks. Run node --test tests/server.test.mjs.
+- **docs/FEATURES.md** — the website's feature guide.
 
-## AI service and limits
+Page scripts contain their own rendering and controls. Shared scripts load first, then the current page initializes itself. All pages share the same browser storage key, so accounts, purchases, goals, and preferences stay consistent. The browser's file-based demo and local-server demo use separate storage.
 
-The default model is `gemini-2.5-flash-lite`. Its availability, free-tier quotas, and pricing are controlled by Google; see [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing) and [API key setup](https://ai.google.dev/gemini-api/docs/api-key). Stay on your Google project's free tier if you do not want paid usage. The app does not enable billing or switch to a paid model automatically.
+The server supports the previous page URLs and preserves their query parameters. Navigation and stylesheet/script paths also work when index.html is opened directly as a file. The server serves only the public website files; private configuration and server source stay inaccessible through HTTP.
 
-When you send a chat message, that message and any included sample budget snapshot are sent to Google. Free-tier content may be used to improve Google's products. Keep the sample data for this demo and avoid sharing real banking credentials. Turn off Include my sample budget to ask general questions without the snapshot. Replies are generated by AI and can be wrong.
-
-The server binds only to this computer. It blocks access to `.env` and server source files, keeps API credentials outside browser JavaScript, limits message sizes, and limits chat to 10 requests per minute. This is a local class demo, not a public production service. A missing key or exhausted provider quota shows an error; the app never pretends a canned answer is real AI.
+This is a class-project mockup using pretend money. It does not connect to real banks or move funds. See docs/FEATURES.md for AI service details and limits.

@@ -1,0 +1,33 @@
+.month-controls { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:22px 0; }
+.month-controls h3 { text-align:center; font-size:23px; }
+.month-controls button { font-size:20px; padding:0 12px; }
+.calendar-layout { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:28px; }
+.weekdays, .calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); }
+.weekdays { padding-bottom:12px; border-bottom:1px solid var(--line); margin-bottom:12px; }
+.weekdays span { text-align:center; color:var(--muted); font-size:11px; }
+.day { width:100%; height:60px; text-align:center; padding:8px 0; font-size:12px; color:var(--ink); background:transparent; border-radius:16px; }
+.day.today { color:var(--green); font-weight:700; background:var(--subtle); }
+.day[aria-pressed="true"] { background:#b7de64; color:#3b5d17; }
+.day-dots { display:flex; justify-content:center; gap:3px; margin-top:5px; }
+.dot { display:inline-block; width:6px; height:6px; border-radius:50%; background:#60981d; }
+.unexpected { background:#b38c55; }
+.calendar-key { display:flex; align-items:center; flex-wrap:wrap; gap:5px; margin-top:14px; font-size:10px; }
+.calendar-key .unexpected { margin-left:8px; }
+.calendar-events { border-left:1px solid var(--line); padding-left:24px; }
+.calendar-events .section-title h3 { font-size:23px; }
+@media (max-width:760px) {
+.calendar-layout { grid-template-columns:1fr; gap:0; }
+.calendar-events { padding:24px 0 0; border-left:0; border-top:1px solid var(--line); margin-top:24px; }
+}
+@media (max-width:380px) {
+.day { height:48px; }
+}
+.day { transition:background-color .18s,color .18s,box-shadow .18s; }
+@media(hover:hover) and (pointer:fine) {
+.day:hover { background:var(--date-hover); color:var(--date-hover-text); box-shadow:inset 0 0 0 1px var(--input-border); }
+.day:hover .dot { background:currentColor; }
+}
+.day:focus-visible { background:var(--date-hover); color:var(--date-hover-text); }
+@media(prefers-reduced-motion:reduce) {
+.day { transition:none; }
+}

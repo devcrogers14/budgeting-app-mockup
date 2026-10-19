@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Budgetron 3000™ · Accounts</title>
+  <link rel="stylesheet" href="../../shared/styles.css">
+  <link rel="stylesheet" href="../../shared/chat.css">
+  <link rel="stylesheet" href="accounts.css">
+  <script src="../../shared/theme.js"></script>
+  <script src="../../shared/state.js" defer></script>
+  <script src="../../shared/ui.js" defer></script>
+  <script src="accounts.js" defer></script>
+  <script src="../../shared/navigation.js" defer></script>
+  <script src="../../shared/chat.js" defer></script>
+</head>
+<body>
+  <header>
+    <a class="brand" href="../overview/overview.html" aria-label="Budgetron 3000 trademark home"><span class="wordmark"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="15" rx="5"/><path d="M12 6V3m-3 13h6"/><circle cx="8" cy="12" r="1" fill="currentColor"/><circle cx="16" cy="12" r="1" fill="currentColor"/></svg>Budgetron <b>3000</b><sup>™</sup></span><span class="brand-tagline">little steps. big plans.</span></a>
+    <nav aria-label="Main navigation">
+      <a href="../overview/overview.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 9-8 9 8v10h-6v-7H9v7H3z"/></svg></span><span>Overview</span></a>
+      <a href="../goals/goals.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="m8 14-2 8 6-3 6 3-2-8M12 5l1 2 2 .3-1.5 1.5.4 2.2-1.9-1-1.9 1 .4-2.2L9 7.3l2-.3z"/></svg></span><span>Goals</span></a>
+      <a href="../accounts/accounts.html" aria-current="page"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M6 15h5"/></svg></span><span>Accounts</span></a>
+      <a href="../spending-chart/spending-chart.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v9h9A9 9 0 1 1 12 3z"/><path d="M15 3a8 8 0 0 1 6 6h-6z"/></svg></span><span>Pie Chart</span></a>
+      <a href="../spending/spending.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="9" cy="6" rx="6" ry="3"/><path d="M3 6v5c0 4 12 4 12 0V6M3 11v5c0 4 12 4 12 0v-5M16 10c7 0 7 6 0 6m-1 4c7 2 9-1 9-4v-3"/></svg></span><span>Spending Info</span></a>
+      <a href="../calendar/calendar.html"><span class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-14 4h2m3 0h2m3 0h1"/></svg></span><span>Calendar</span></a>
+    </nav>
+    <div class="sidebar-bottom"><p><strong>My demo account</strong>$3,000 monthly income</p></div>
+  </header>
+  <main>
+    <div class="page-title"><div><h1>My Accounts</h1><p>Plan your allocations and manage demo transfers.</p></div><div class="page-actions"><label class="theme-picker">Theme<select id="color-theme" aria-label="Color Theme"><option value="cream">Cream</option><option value="sage">Sage</option><option value="ocean">Ocean</option><option value="rose">Rose</option></select></label><span class="badge">Demo</span><button id="theme-toggle" class="secondary theme-toggle" type="button" aria-pressed="false"><span>Dark Mode</span><span class="theme-switch" aria-hidden="true"></span></button></div></div>
+    <p class="notice">Sample money only. Bank connections and transfers are simulated.</p>
+    <div class="accounts-layout">
+    <section id="accounts" class="panel">
+      <div class="section-title"><h2>Accounts</h2><button class="text-button" data-open="account-dialog">+ Connect demo account</button></div>
+      <p class="small">Change your monthly allocation below. Allocations are a plan; they do not move money.</p>
+      <form id="allocation-form">
+        <div class="table-scroll"><table><caption class="sr-only">Demo accounts and monthly allocations</caption><thead><tr><th scope="col">Account</th><th scope="col">Balance</th><th scope="col">Monthly allocation</th></tr></thead><tbody id="account-rows"></tbody></table></div>
+        <div class="form-footer"><span id="allocation-total" class="small"></span><button type="submit">Save allocations</button></div>
+        <p class="error" id="allocation-error" role="alert"></p>
+      </form>
+      <details>
+        <summary>Automatic transfer <span class="small">· demo</span></summary>
+        <p class="small">Set a monthly rule, then simulate a transfer to see balances change.</p>
+        <form id="transfer-form" class="form-grid">
+          <label>From<select id="transfer-from" required></select></label>
+          <label>To<select id="transfer-to" required></select></label>
+          <label>Amount ($)<input id="transfer-amount" type="number" min="0.01" step="0.01" value="100" required></label>
+          <label>Next transfer<input id="transfer-date" type="date" required></label>
+          <label class="checkbox"><input id="transfer-enabled" type="checkbox" checked> Repeat monthly</label>
+          <div class="button-row"><button type="submit">Save rule</button><button type="button" id="run-transfer" class="secondary">Simulate transfer</button></div>
+        </form>
+        <p id="transfer-status" class="small"></p><p id="transfer-error" class="error" role="alert"></p>
+      </details>
+    </section>
+<aside class="panel"><h2>My cards</h2><p class="small">Choose a card to see its balance.</p><div id="bank-cards" class="bank-cards"></div><p id="selected-card-info" class="account-note"></p><p class="account-note">Illustrative demo cards. No real card numbers are stored.</p></aside>
+    </div>
+    <footer>Changes are saved in this browser. <button id="reset-demo" class="text-button">Reset demo</button></footer>
+    <p id="status" role="status" class="status"></p>
+  </main>
+  <dialog id="account-dialog">
+    <form id="account-form"><h2>Connect a demo account</h2><p class="small">Enter a made-up bank name. No login or real bank connection is needed.</p><label>Bank name<input id="bank-name" maxlength="60" placeholder="Example Bank" required></label><label>Account type<select id="account-type"><option value="checking">Checking</option><option value="savings">Savings</option><option value="credit">Credit card</option></select></label><label>Starting balance ($)<input id="account-balance" type="number" min="0" step="0.01" value="0" required></label><div class="button-row"><button type="button" class="secondary" data-close>Cancel</button><button type="submit">Connect demo account</button></div></form>
+  </dialog>
+</body>
+</html>
