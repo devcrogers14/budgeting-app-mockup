@@ -66,16 +66,28 @@
       upcomingPayments:budget.events.filter(item=>item.kind==='planned'&&item.date>=date).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,12).map(item=>({name:item.name,date:item.date,amount:item.amount/100})),
       transferRule:budget.transfer?{amount:budget.transfer.amount/100,nextDate:budget.transfer.date,repeatMonthly:budget.transfer.repeat}:null};
   }
+  function showConnectionHelp(message){
+    connection.textContent=message+' ';
+    const link=document.createElement('a');link.href='http://127.0.0.1:3000/';link.textContent='Open the local Budgetron website';connection.append(link);
+  }
   async function checkConnection(){
-    if(location.protocol==='file:'){connection.textContent='For real AI, launch Start Budgetron.bat and open the local website shown there.';return;}
+    if(location.protocol==='file:'){
+      showConnectionHelp('AI chat needs the local server. Run Start Budgetron.bat, then use the website it opens.');return false;
+    }
     try{
-      const response=await fetch('/api/chat/status',{cache:'no-store'});const state=await response.json();
-      connection.textContent=state.configured?'AI is ready.':'Setup: add your Gemini key to .env and save it. No restart needed.';
-    }catch{connection.textContent='Start the local Budgetron server to connect the AI.';}
+      const response=await fetch('/api/chat/status',{cache:'no-store',signal:AbortSignal.timeout(5000)});
+      if(!response.ok || !response.headers.get('content-type')?.includes('application/json'))throw new Error('Not the Budgetron server');
+      const state=await response.json();
+      if(state.provider!=='Gemini' || typeof state.configured!=='boolean')throw new Error('Not the Budgetron server');
+      connection.textContent=state.configured?'AI is ready.':'Add your Gemini key to .env and save it. Then send your question again.';
+      return state.configured;
+    }catch{
+      showConnectionHelp('AI chat needs the Budgetron server. Run Start Budgetron.bat; VS Code Live Server and GitHub Pages cannot run the AI server.');return false;
+    }
   }
   async function ask(text,retry=false){
     text=text.trim();if(!text||pending)return;
-    if(location.protocol==='file:'){await checkConnection();return;}
+    if(!await checkConnection())return;
     pending=true;send.disabled=true;newChat.disabled=true;panel.setAttribute('aria-busy','true');
     messages.querySelector('.chat-welcome')?.remove();messages.querySelectorAll('.chat-error').forEach(item=>item.remove());
     if(!retry)bubble('user',text);

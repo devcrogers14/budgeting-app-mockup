@@ -1,4 +1,6 @@
 import http from 'node:http';
+import {existsSync} from 'node:fs';
+import {spawn} from 'node:child_process';
 import { readFile } from 'node:fs/promises';
 import { extname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -19,7 +21,7 @@ async function settings() {
     }
   } catch (error) { if (error.code !== 'ENOENT') throw error; }
   const key = (process.env.GEMINI_API_KEY || values.GEMINI_API_KEY || '').trim();
-  const model = process.env.GEMINI_MODEL || values.GEMINI_MODEL || 'gemini-2.5-flash-lite';
+  const model = process.env.GEMINI_MODEL || values.GEMINI_MODEL || 'gemini-3.5-flash-lite';
   const port = Number(process.env.PORT || values.PORT || 3000);
   return {key, model, port, configured:Boolean(key && key !== 'PASTE_YOUR_KEY_HERE')};
 }
@@ -95,10 +97,38 @@ export function createBudgetronServer({generateReply=generateGeminiReply,loadSet
   });
 }
 
+function openInBrave(address) {
+  const candidates = [
+    resolve(process.env.ProgramFiles || 'C:\\Program Files','BraveSoftware','Brave-Browser','Application','brave.exe'),
+    resolve(process.env.LOCALAPPDATA || process.cwd(),'BraveSoftware','Brave-Browser','Application','brave.exe'),
+  ];
+  const executable = process.platform === 'win32' ? candidates.find(path => existsSync(path)) : null;
+  if (!executable) { console.log('Open '+address+' in Brave to use AI chat.'); return; }
+  const browser=spawn(executable,[address],{detached:true,stdio:'ignore',windowsHide:true});
+  browser.on('error',()=>console.log('Open '+address+' in Brave to use AI chat.'));
+  browser.unref();
+}
+
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {
   const config=await settings();
   if(!Number.isInteger(config.port)||config.port<1024||config.port>65535)throw new Error('PORT must be an integer from 1024 to 65535.');
+  const address='http://127.0.0.1:'+config.port;
+  const shouldOpen=process.argv.includes('--open');
   const server=createBudgetronServer();
-  server.on('error',(error)=>{console.error(error.code==='EADDRINUSE'?`Port ${config.port} is already in use. Change PORT in .env.`:'Could not start Budgetron.');process.exitCode=1;});
-  server.listen(config.port,'127.0.0.1',()=>console.log(`Budgetron is ready at http://127.0.0.1:${config.port}\n${config.configured?'Gemini API key loaded.':'Paste your Gemini API key into .env to enable chat.'}\nKeep this window open while using AI chat.`));
+  server.on('error',async(error)=>{
+    if(error.code==='EADDRINUSE' && shouldOpen){
+      try{
+        const response=await fetch(address+'/api/chat/status',{signal:AbortSignal.timeout(3000)});
+        const state=await response.json();
+        if(response.ok && state.provider==='Gemini' && typeof state.configured==='boolean'){
+          console.log('Budgetron is already running at '+address);openInBrave(address);return;
+        }
+      }catch{}
+    }
+    console.error(error.code==='EADDRINUSE'?'Port '+config.port+' is already in use. Change PORT in .env.':'Could not start Budgetron.');process.exitCode=1;
+  });
+  server.listen(config.port,'127.0.0.1',()=>{
+    console.log('Budgetron is ready at '+address+'\n'+(config.configured?'Gemini API key loaded.':'Paste your Gemini API key into .env to enable chat.')+'\nKeep this window open while using AI chat.');
+    if(shouldOpen)openInBrave(address);
+  });
 }

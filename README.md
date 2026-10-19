@@ -6,7 +6,7 @@ A budgeting website with demo accounts, savings goals, spending charts, a paymen
 
 Double-click **index.html** for the budgeting demo. It opens the Overview page.
 
-For AI chat, install Node.js 22 or newer, copy **.env.example** to **.env**, add your Gemini API key, then double-click **Start Budgetron.bat**. Open the local URL printed by the server. The API key stays on your computer; never commit .env.
+For AI chat, install Node.js 22 or newer, copy **.env.example** to **.env**, add your Gemini API key, then double-click **Start Budgetron.bat**. The launcher opens the local website in Brave once the server is ready. Keep the server window open while chatting. If it does not open automatically, use the printed local URL. The API key stays on your computer; never commit .env.
 
 You can also run the server from the project root:
 

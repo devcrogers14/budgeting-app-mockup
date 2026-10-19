@@ -12,7 +12,7 @@ const pages={index:'overview',goals:'goals',accounts:'accounts',pie:'spending-ch
 test('organized website: pages, shared assets, old links, and chat API',async(t)=>{
   let received;
   const server=createBudgetronServer({
-    loadSettings:async()=>({configured:true,key:'test-only',model:'gemini-2.5-flash-lite'}),
+    loadSettings:async()=>({configured:true,key:'test-only',model:'gemini-3.5-flash-lite'}),
     generateReply:async(input)=>{received=input;return 'Mock response: your sample budget is available.';},
   });
   server.listen(0,'127.0.0.1');await once(server,'listening');
@@ -61,7 +61,7 @@ test('organized website: pages, shared assets, old links, and chat API',async(t)
   });
   await t.test('chat status and response use the expected client contract',async()=>{
     const state=await(await fetch(`${base}/api/chat/status`)).json();
-    assert.deepEqual(state,{configured:true,provider:'Gemini',model:'gemini-2.5-flash-lite'});
+    assert.deepEqual(state,{configured:true,provider:'Gemini',model:'gemini-3.5-flash-lite'});
     const input={messages:[{role:'user',content:'How is my sample budget?'}],budget:{income:300000}};
     const response=await fetch(`${base}/api/chat`,{method:'POST',headers:{'Content-Type':'application/json',Origin:base},body:JSON.stringify(input)});
     assert.equal(response.status,200);assert.match((await response.json()).reply,/Mock response/);
