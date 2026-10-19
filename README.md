@@ -30,12 +30,13 @@ Each page has its own folder and its own HTML, CSS, and JavaScript. To change a 
 
 The root contains only the start page, launcher, documentation, and configuration.
 
-- **shared/** — reusable styles, data/storage, transaction editing, savings-goal dialogs, chart drawing, theme controls, navigation, and AI chat.
+- **css files/** — reusable layout, themes, and chat styles.
+- **javascript files/** — data/storage, transaction editing, savings-goal dialogs, chart drawing, theme controls, navigation, and AI chat.
 - **server/** — the local Node.js server and Gemini API requests.
 - **tests/** — server, route, and asset checks. Run node --test tests/server.test.mjs.
 - **docs/FEATURES.md** — the website's feature guide.
 
-Page scripts contain their own rendering and controls. Shared scripts load first, then the current page initializes itself. All pages share the same browser storage key, so accounts, purchases, goals, and preferences stay consistent. The browser's file-based demo and local-server demo use separate storage.
+Page scripts contain their own rendering and controls. Reusable scripts load first, then the current page initializes itself. All pages share the same browser storage key, so accounts, purchases, goals, and preferences stay consistent. The browser's file-based demo and local-server demo use separate storage.
 
 The server supports the previous page URLs and preserves their query parameters. Navigation and stylesheet/script paths also work when index.html is opened directly as a file. The server serves only the public website files; private configuration and server source stay inaccessible through HTTP.
 

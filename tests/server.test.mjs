@@ -52,11 +52,11 @@ test('organized website: pages, shared assets, old links, and chat API',async(t)
     assert.equal((await fetch(base,{redirect:'manual'})).headers.get('location'),'/pages/overview/overview.html');
   });
   await t.test('private files, traversal and server source are blocked',async()=>{
-    for(const path of ['/.env','/.env.example','/.git/config','/server/server.mjs','/tests/server.test.mjs','/README.md','/shared/../server/server.mjs','/pages/overview/../../.env','/assets/js/app.js']){
+    for(const path of ['/.env','/.env.example','/.git/config','/server/server.mjs','/tests/server.test.mjs','/README.md','/javascript files/../server/server.mjs','/pages/overview/../../.env','/assets/js/app.js']){
       assert.equal((await fetch(base+path)).status,404,path);
     }
     assert.equal((await fetch(`${base}/pages/goals/goals.html`,{method:'POST'})).status,405);
-    const head=await fetch(`${base}/shared/state.js`,{method:'HEAD'});
+    const head=await fetch(`${base}/javascript files/state.js`,{method:'HEAD'});
     assert.equal(head.status,200);assert.equal(await head.text(),'');
   });
   await t.test('chat status and response use the expected client contract',async()=>{
