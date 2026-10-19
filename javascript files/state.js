@@ -38,15 +38,22 @@ function sampleData() {
 let data = sampleData();
 try {
   const saved = JSON.parse(localStorage.getItem(storageKey));
-  if (saved && saved.income === 300000 && saved.goal && Array.isArray(saved.accounts) && Array.isArray(saved.events)) data = saved;
+  if (saved && saved.income === 300000 && (saved.goal || Array.isArray(saved.goals)) && Array.isArray(saved.accounts) && Array.isArray(saved.events)) data = saved;
 } catch { /* The demo still works when browser storage is unavailable. */ }
 
 // Keep goals created in earlier versions and share the active goal across pages.
 function initializeGoals() {
-  if (!Array.isArray(data.goals) || !data.goals.length) data.goals = [data.goal];
-  data.goals.forEach((goal) => { if (!goal.id) goal.id = newId(); });
-  data.goal = data.goals.find((goal) => goal.id === data.activeGoalId) || data.goals[0];
-  data.activeGoalId = data.goal.id;
+  // An explicit empty list means the user deleted all goals; do not resurrect a legacy goal.
+  if(!Array.isArray(data.goals))data.goals=data.goal?[data.goal]:[];
+  data.goals=data.goals.filter(goal=>goal && typeof goal==='object');
+  data.goals.forEach(goal=>{if(!goal.id)goal.id=newId();});
+  data.goal=data.goals.find(goal=>goal.id===data.activeGoalId)||data.goals[0]||null;
+  data.activeGoalId=data.goal?.id||null;
+}
+function removeGoal(id){
+  if(!data.goals.some(goal=>goal.id===id))return false;
+  data.goals=data.goals.filter(goal=>goal.id!==id);
+  initializeGoals();return true;
 }
 initializeGoals();
 
@@ -59,5 +66,6 @@ function spendingTotals() {
   return totals;
 }
 function goalSavings(goal) {
+  if(!goal)return 0;
   return data.accounts.filter((account) => account.type === 'savings' && (!goal.accountId || account.id === goal.accountId)).reduce((sum, account) => sum + account.balance, 0);
 }

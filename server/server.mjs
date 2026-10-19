@@ -7,8 +7,8 @@ import { extname, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const root = new URL('../', import.meta.url);
-const publicFiles = new Set(["javascript files/state.js","javascript files/charts.js","javascript files/transactions.js","javascript files/goals.js","javascript files/ui.js","pages/overview/overview.js","pages/goals/goals.js","pages/accounts/accounts.js","pages/spending-chart/spending-chart.js","pages/spending/spending.js","pages/calendar/calendar.js","javascript files/theme.js","javascript files/navigation.js","javascript files/chat.js","css files/styles.css","pages/overview/overview.css","pages/goals/goals.css","pages/calendar/calendar.css","pages/accounts/accounts.css","pages/spending-chart/spending-chart.css","pages/spending/spending.css","css files/chat.css","pages/overview/overview.html","pages/goals/goals.html","pages/accounts/accounts.html","pages/spending-chart/spending-chart.html","pages/spending/spending.html","pages/calendar/calendar.html","index.html","javascript files/entry.js"]);
-const legacyPages = {"/index.html":"/pages/overview/overview.html","/goals.html":"/pages/goals/goals.html","/accounts.html":"/pages/accounts/accounts.html","/pie.html":"/pages/spending-chart/spending-chart.html","/spending.html":"/pages/spending/spending.html","/calendar.html":"/pages/calendar/calendar.html"};
+const publicFiles = new Set(["javascript files/state.js","javascript files/charts.js","javascript files/transactions.js","javascript files/goals.js","javascript files/ui.js","pages/home/home.js","pages/goals/goals.js","pages/accounts/accounts.js","pages/spending-chart/spending-chart.js","pages/transactions/transactions.js","pages/calendar/calendar.js","javascript files/theme.js","javascript files/navigation.js","javascript files/chat.js","css files/styles.css","pages/home/home.css","pages/goals/goals.css","pages/calendar/calendar.css","pages/accounts/accounts.css","pages/spending-chart/spending-chart.css","pages/transactions/transactions.css","css files/chat.css","pages/home/home.html","pages/goals/goals.html","pages/accounts/accounts.html","pages/spending-chart/spending-chart.html","pages/transactions/transactions.html","pages/calendar/calendar.html","index.html","javascript files/entry.js"]);
+const legacyPages = {"/index.html":"/pages/home/home.html","/goals.html":"/pages/goals/goals.html","/accounts.html":"/pages/accounts/accounts.html","/pie.html":"/pages/spending-chart/spending-chart.html","/spending.html":"/pages/transactions/transactions.html","/calendar.html":"/pages/calendar/calendar.html","/home.html":"/pages/home/home.html","/overview.html":"/pages/home/home.html","/transactions.html":"/pages/transactions/transactions.html","/pages/overview/overview.html":"/pages/home/home.html","/pages/spending/spending.html":"/pages/transactions/transactions.html"};
 const publicTypes = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'application/javascript; charset=utf-8', '.svg':'image/svg+xml', '.png':'image/png', '.ico':'image/x-icon' };
 
 async function settings() {
@@ -82,7 +82,7 @@ export function createBudgetronServer({generateReply=generateGeminiReply,loadSet
         const reply=await generateReply({messages,budget,config});return json(200,{reply});
       }
       if (!['GET','HEAD'].includes(req.method)) return json(405,{error:'Method not allowed.'});
-      const destination = url.pathname === '/' ? '/pages/overview/overview.html' : legacyPages[url.pathname];
+      const destination = url.pathname === '/' ? '/pages/home/home.html' : legacyPages[url.pathname];
       if (destination) {res.writeHead(302,{'Location':destination+url.search});res.end();return;}
       const path=decodeURIComponent(url.pathname);
       const filename=path.slice(1);

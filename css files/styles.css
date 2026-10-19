@@ -262,3 +262,14 @@ nav a { transition:background-color .2s,border-color .2s,color .2s,box-shadow .2
   nav a { transition:none; }
   ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*) { animation:none; }
 }
+
+/* The same hover and keyboard feedback for every text action. */
+[hidden] { display:none !important; }
+a[href],button:not(:disabled),summary,[role="button"] { cursor:pointer; }
+a[href]:not(.brand):not(.button-link):hover,a[href]:not(.brand):not(.button-link):focus-visible,
+button.text-button:not(:disabled):hover,button.text-button:not(:disabled):focus-visible,
+summary:hover,summary:focus-visible { text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:1px; }
+.text-button:disabled { cursor:default; }
+.danger-link { color:var(--error); }
+.danger-button { background:var(--error); color:var(--panel); }
+.confirmation-actions { margin-top:22px; }

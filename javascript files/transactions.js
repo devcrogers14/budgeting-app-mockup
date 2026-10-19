@@ -54,8 +54,8 @@ function showPurchases(id, items) {
     const item = document.createElement('li'); const title = document.createElement('div'); title.className = 'payment-title';
     const name = document.createElement('span'); name.textContent = event.name;
     const amount = document.createElement('span'); amount.textContent = money(event.amount); title.append(name, amount);
-    const detail = document.createElement('small'); detail.textContent = `${event.date} · ${event.category}`;
+    const detail = document.createElement('small'); detail.textContent = `${event.date} · ${event.kind==='planned'?'Planned payment':'Purchase'} · ${event.category}`;
     item.append(title, detail, transactionActions(event)); return item;
   }));
-  if (!items.length) { const item = document.createElement('li'); item.textContent = 'No purchases here this month.'; $(id).append(item); }
+  if (!items.length) { const item = document.createElement('li'); item.textContent = 'No transactions here this month.'; $(id).append(item); }
 }

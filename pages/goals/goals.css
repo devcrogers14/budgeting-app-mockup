@@ -17,3 +17,5 @@
 }
 .goal-ring { background:conic-gradient(var(--chart-2) 80%,var(--subtle) 0); }
 .goal-add { border-radius:14px; }
+
+.goal-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px 14px; }

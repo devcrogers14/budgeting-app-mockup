@@ -7,7 +7,7 @@ import {once} from 'node:events';
 import {createBudgetronServer} from '../server/server.mjs';
 
 const root = new URL('../',import.meta.url);
-const pages={index:'overview',goals:'goals',accounts:'accounts',pie:'spending-chart',spending:'spending',calendar:'calendar'};
+const pages={index:'home',goals:'goals',accounts:'accounts',pie:'spending-chart',spending:'transactions',calendar:'calendar'};
 
 test('organized website: pages, shared assets, old links, and chat API',async(t)=>{
   let received;
@@ -49,7 +49,12 @@ test('organized website: pages, shared assets, old links, and chat API',async(t)
       assert.equal(response.status,302);
       assert.equal(response.headers.get('location'),`/pages/${page}/${page}.html?category=Food&add=purchase`);
     }
-    assert.equal((await fetch(base,{redirect:'manual'})).headers.get('location'),'/pages/overview/overview.html');
+    assert.equal((await fetch(base,{redirect:'manual'})).headers.get('location'),'/pages/home/home.html');
+    for(const [old,target] of [['/pages/overview/overview.html','/pages/home/home.html'],['/pages/spending/spending.html','/pages/transactions/transactions.html']]){
+      const response=await fetch(`${base}${old}?add=transaction`,{redirect:'manual'});
+      assert.equal(response.status,302);
+      assert.equal(response.headers.get('location'),target+'?add=transaction');
+    }
   });
   await t.test('private files, traversal and server source are blocked',async()=>{
     for(const path of ['/.env','/.env.example','/.git/config','/server/server.mjs','/server/chat-policy.mjs','/tests/server.test.mjs','/README.md','/javascript files/../server/server.mjs','/pages/overview/../../.env','/assets/js/app.js']){

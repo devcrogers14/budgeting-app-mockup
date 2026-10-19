@@ -62,6 +62,6 @@ window.BudgetronPage = {
   transactionChanged(record) {const [year,month]=record.date.split('-').map(Number); visibleMonth=new Date(year,month-1,1); selectedDate=null;}
 };
 render();
-if ($('payment-dialog') && new URLSearchParams(location.search).get('add') === 'purchase') {
+if ($('payment-dialog') && ['purchase','transaction'].includes(new URLSearchParams(location.search).get('add'))) {
   $('payment-date').value = isoDate(today); $('payment-kind').value = 'purchase'; $('payment-dialog').showModal();
 }

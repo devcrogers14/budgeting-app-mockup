@@ -11,7 +11,7 @@ function render() { window.BudgetronPage?.render(); }
 
 document.querySelectorAll('[data-open]').forEach((button) => button.addEventListener('click', () => {
   if (button.dataset.open === 'goal-dialog') {
-    const adding = button.dataset.goalMode === 'add'; $('goal-dialog').dataset.mode = adding ? 'add' : 'edit';
+    const adding = button.dataset.goalMode === 'add' || !data.goal; $('goal-dialog').dataset.mode = adding ? 'add' : 'edit';
     $('goal-input-name').value = adding ? '' : data.goal.name; $('goal-target').value = adding ? 1000 : data.goal.target / 100;
     if ($('goal-date')) $('goal-date').value = adding ? '' : data.goal.dueDate || '';
     if ($('goal-account')) $('goal-account').value = adding ? '' : data.goal.accountId || '';
