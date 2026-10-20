@@ -34,7 +34,7 @@
 
 Many students and first-job earners manage money across a paycheck, a few subscriptions and a savings goal with no single place to see it all. PocketBudget is a budgeting app that shows income, spending, bills and goals together, so a person always knows what is safe to spend.
 
-Users set monthly limits for each spending category, log expenses and income, and see where their money goes in a donut chart. A bill calendar lists subscriptions and paydays and reminds users of upcoming payments. Savings goals forecast a finish date from real contributions, and paycheck allocation rules split income between checking, savings and investments. The prototype is a Flutter app with fictional data held in memory; bank linking, push notifications and automatic bill payment are future integrations. Separate from the MVP, a planned AI Budget Coach would propose budgeting goals that adapt to the user's spending habits, behind the guardrails described in its own section of the Supporting analysis tab.
+Users set monthly limits for each spending category, log expenses and income, and see where their money goes in a donut chart. A bill calendar lists subscriptions and paydays and reminds users of upcoming payments. Savings goals forecast a finish date from real contributions, and paycheck allocation rules split income between checking, savings and investments. The prototype is a Flutter app with fictional data held in memory; bank linking, push notifications and automatic bill payment are future integrations. Separate from the MVP, a planned AI Budget Coach would propose budgeting goals that adapt to the user's spending habits, behind the guardrails described in its own section of the [Supporting analysis](SUPPORTING_ANALYSIS.md).
 
 ### 2.2 Final Deliverable
 
@@ -43,7 +43,7 @@ Users set monthly limits for each spending category, log expenses and income, an
   - Spending views: a current-month donut chart and category budget list (daily and quarterly report views are planned)
   - A test plan: seven automated tests plus a manual walkthrough, with feedback captured on navigation, labels and totals
 
-Requirements, MVP status, competitor research, functional design and the test plan are in PocketBudget Project Design Document.
+Requirements, MVP status, competitor research, functional design and the test plan are in the [Supporting analysis](SUPPORTING_ANALYSIS.md).
 
 mockup and a working model of the app are also deliverables
 
@@ -51,7 +51,7 @@ Both are in section 4: the mockup in 4.5 Mockup Screens and the runnable demo in
 
 ## 3 Workflow Diagram
 
-[image: PocketBudget user workflow]
+![PocketBudget user workflow](images/workflow.png)
 
 ## 4 Architecture and Process flow diagram
 
@@ -59,13 +59,13 @@ Both are in section 4: the mockup in 4.5 Mockup Screens and the runnable demo in
 
 Budgetron 3000 serves one user, a college student new to budgeting and money management. It relies on two outside systems: an Open Banking API for real-time banking information and a Notification Service that sends progress, spending and budgeting-suggestion alerts.
 
-[image: Budgetron 3000 system context diagram]
+![Budgetron 3000 system context diagram](images/c4-system-context.png)
 
 ### 4.2 Container diagram
 
 The Budgetron 3000 system is made of three containers. A Flutter single-page application gives the user interface, an API backend handles the business logic, and a database stores user profiles, transactions and monthly budget targets.
 
-[image: Budgetron 3000 container diagram]
+![Budgetron 3000 container diagram](images/c4-container.png)
 
 ### 4.3 Component diagram
 
@@ -77,7 +77,7 @@ The API backend is split into five components:
 - **Notification Component:** packages alerts and sends them to the external notification gateway.
 - **AI Component:** the chatbot for budgeting questions, specified in the AI Budget Coach section (separate from the MVP).
 
-[image: Budgetron 3000 component diagram]
+![Budgetron 3000 component diagram](images/c4-component.png)
 
 ### 4.4 Code diagram
 
@@ -89,29 +89,29 @@ The CS 100 App Mock-Up sets the look of the app: a cream background, brown text,
 
 **Calendar:** month view with a menu, then a Today timeline of deposits, paydays and bills due.
 
-[image: Mockup: Calendar]
+![Mockup: Calendar](images/mockup-calendar.png)
 
 **Goal:** goal name and completion date, a progress chart, a progress info / AI suggestion panel and Add Goal.
 
-[image: Mockup: Goal]
+![Mockup: Goal](images/mockup-goal.png)
 
 **Card Info:** stacked bank cards; selecting one shows its details, with Add Card.
 
-[image: Mockup: Card Info]
+![Mockup: Card Info](images/mockup-card-info.png)
 
 **Pie Chart:** spending split into Savings, Bills, Discretionary Purchases and Subscriptions; selecting a slice raises it and opens that category.
 
-[image: Mockup: Pie Chart, Savings]
+![Mockup: Pie Chart, Savings](images/mockup-pie-savings.png)
 
-[image: Mockup: Pie Chart, Bills]
+![Mockup: Pie Chart, Bills](images/mockup-pie-bills.png)
 
-[image: Mockup: Pie Chart, Discretionary Purchases]
+![Mockup: Pie Chart, Discretionary Purchases](images/mockup-pie-discretionary.png)
 
-[image: Mockup: Pie Chart, Subscriptions]
+![Mockup: Pie Chart, Subscriptions](images/mockup-pie-subscriptions.png)
 
 **Spending Info:** panels for monthly spending details.
 
-[image: Mockup: Spending Info]
+![Mockup: Spending Info](images/mockup-spending-info.png)
 
 ### 4.6 App Demo
 
@@ -128,17 +128,17 @@ Changes save in the browser, and Reset demo at the bottom of each page restores 
 | Spending Info | Monthly totals by category, all purchases and a short summary |
 | Calendar | Browse months, select a day, add planned payments or unexpected purchases; purchases update the spending chart |
 
-[image: Demo: Overview]
+![Demo: Overview](images/demo-overview.png)
 
-[image: Demo: Goals]
+![Demo: Goals](images/demo-goals.png)
 
-[image: Demo: Accounts]
+![Demo: Accounts](images/demo-accounts.png)
 
-[image: Demo: Pie Chart]
+![Demo: Pie Chart](images/demo-pie-chart.png)
 
-[image: Demo: Spending Info]
+![Demo: Spending Info](images/demo-spending-info.png)
 
-[image: Demo: Calendar]
+![Demo: Calendar](images/demo-calendar.png)
 
 ### 4.7 Demo Break Tests
 
