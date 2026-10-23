@@ -1,3 +1,4 @@
+// Trusted chat scope: describe supported app features and validate the structured Gemini response. User messages and budget data cannot change this server-owned policy.
 // Edit this file to change what Budgetron is allowed to discuss.
 export const OFF_TOPIC_REPLY = "I can only help with Budgetron 3000 and your budget in this app. Ask me about your spending, accounts, savings goals, calendar, or how to use a feature.";
 
@@ -37,6 +38,8 @@ export const CHAT_RESPONSE_SCHEMA = {
   required:['inScope','reply'],
   additionalProperties:false,
 };
+
+// Accept only a valid scope decision and nonempty answer; replace off-topic replies with a fixed response.
 
 export function parseScopedReply(text) {
   let result;

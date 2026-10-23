@@ -51,3 +51,14 @@ The server owns the policy in `server/chat-policy.mjs`, requests a structured sc
 
 
 Goal deletion asks for confirmation and never changes account balances. Deleting the final goal leaves an empty state that persists after reload. Transactions lists both current-month purchases and planned payments; only purchases count as spending. Text-only actions underline and show a pointer on hover, with equivalent keyboard-focus feedback.
+
+
+## Moving and hiding Ask Budgetron
+
+Drag the Ask Budgetron button with a mouse or touch. Its position is remembered across pages and reloads and stays within the screen when its size changes. Keyboard users can focus the button and press Alt + an arrow key to move it.
+
+Open the chat and expand **Position & visibility** to choose **Show only on Home** or **Reset position**. Home always keeps the button available, so you can turn other pages back on there.
+
+## Reading the source
+
+Every source file starts with a purpose comment. JavaScript functions explain their main responsibility; HTML comments identify assets, navigation, content and dialogs; CSS comments identify layout and responsive overrides. `budgetData` is the shared demo model, `getElement(id)` finds an HTML element, `formatMoney(cents)` displays dollars, `readAmountInCents(id)` reads a money input, and `currentMonthPurchases()` excludes planned payments from spending. Browser storage keys, HTML IDs and saved-data field names stay consistent so existing demo data keeps working.

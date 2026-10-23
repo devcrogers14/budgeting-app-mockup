@@ -1,3 +1,4 @@
+# Keep private keys, dependencies, logs and local editor preferences out of GitHub.
 .env
 .env.*
 !.env.example

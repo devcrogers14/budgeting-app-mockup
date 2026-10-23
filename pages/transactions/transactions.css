@@ -1,3 +1,4 @@
+/* Transactions page styles. Shared typography, colors and controls come from css files/styles.css; this file handles this page's layout and responsive details. */
 .spending-layout { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr); gap:24px; }
 @media (max-width:760px) {
 .spending-layout { grid-template-columns:1fr; gap:0; }

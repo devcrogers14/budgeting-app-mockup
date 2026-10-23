@@ -1,3 +1,4 @@
+/* Spending Chart page styles. Shared typography, colors and controls come from css files/styles.css; this file handles this page's layout and responsive details. */
 .pie-page-layout { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.2fr); gap:24px; align-items:start; }
 .big-chart-panel { background:transparent; box-shadow:none; padding:12px; }
 .donut-wrap { position:relative; width:min(100%,390px); aspect-ratio:1; margin:0 auto; }
@@ -30,10 +31,12 @@
 .eyebrow { display:block; text-transform:uppercase; letter-spacing:1.3px; font-size:10px; color:var(--muted); margin-bottom:8px; }
 .category-detail .payment-list { margin-top:14px; }
 .big-chart-panel { border:0; box-shadow:none; }
+/* Adapt this layout for narrower screens. */
 @media(max-width:760px) {
 .donut-center strong { font-size:21px; }
 .pie-page-layout .big-chart-panel { order:-1; }
 }
+/* Adapt this layout for narrower screens. */
 @media(max-width:380px) {
 .donut-center strong { font-size:19px; }
 }

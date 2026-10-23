@@ -1,3 +1,4 @@
+// Restore light/dark mode and color palette before paint, then connect the page controls. These preferences use their own localStorage entries.
 // Apply the theme before the page appears, then connect the header toggle.
 const themeKey = 'insert-name-theme';
 let currentTheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -16,21 +17,21 @@ try {
 document.documentElement.dataset.palette = currentPalette;
 
 document.addEventListener('DOMContentLoaded', () => {
-  const toggle = document.getElementById('theme-toggle');
+  const themeToggle = document.getElementById('theme-toggle');
   const updateToggle = () => {
-    toggle.setAttribute('aria-pressed', String(currentTheme === 'dark'));
-    toggle.title = currentTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+    themeToggle.setAttribute('aria-pressed', String(currentTheme === 'dark'));
+    themeToggle.title = currentTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
   };
   updateToggle();
-  const picker = document.getElementById('color-theme');
-  picker.value = currentPalette;
-  picker.addEventListener('change', () => {
-    currentPalette = picker.value;
+  const palettePicker = document.getElementById('color-theme');
+  palettePicker.value = currentPalette;
+  palettePicker.addEventListener('change', () => {
+    currentPalette = palettePicker.value;
     document.documentElement.dataset.palette = currentPalette;
     try { localStorage.setItem(paletteKey, currentPalette); }
     catch { /* Palette changes remain usable for this page. */ }
   });
-  toggle.addEventListener('click', () => {
+  themeToggle.addEventListener('click', () => {
     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = currentTheme;
     updateToggle();

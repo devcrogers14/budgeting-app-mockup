@@ -1,3 +1,4 @@
+/* Calendar page styles. Shared typography, colors and controls come from css files/styles.css; this file handles this page's layout and responsive details. */
 .month-controls { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:22px 0; }
 .month-controls h3 { text-align:center; font-size:23px; }
 .month-controls button { font-size:20px; padding:0 12px; }
@@ -28,6 +29,7 @@
 .day:hover .dot { background:currentColor; }
 }
 .day:focus-visible { background:var(--date-hover); color:var(--date-hover-text); }
+/* Honor the operating system preference for less animation. */
 @media(prefers-reduced-motion:reduce) {
 .day { transition:none; }
 }

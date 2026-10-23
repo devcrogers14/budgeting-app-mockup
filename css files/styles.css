@@ -1,3 +1,4 @@
+/* Shared design system: theme colors, page/sidebar layout, reusable controls, chart styling and responsive rules. CSS variables keep every page consistent across palettes and dark mode. */
 :root { color-scheme:light; --background:#f3e9ce; --panel:#fffcf5; --ink:#634e3e; --heading:#94715a; --muted:#8b7562; --line:#e3d5b9; --subtle:#eee3c8; --green:#4d7d16; --button:#507f18; --button-text:#fffef8; --input-border:#d7c6a4; --error:#b8442a; --dots:#fffdf4; --shadow:0 8px 30px #8f76400a; }
 :root[data-theme="dark"] { color-scheme:dark; --background:#1c2419; --panel:#293324; --ink:#f1ead9; --heading:#e1c6a6; --muted:#bcaf98; --line:#45513a; --subtle:#34422b; --green:#b5da6d; --button:#b5da6d; --button-text:#263818; --input-border:#56644a; --error:#ffa58c; --dots:#51603a; --shadow:0 8px 30px #00000012; }
 * { box-sizing:border-box; }
@@ -193,10 +194,12 @@ button, .button-link { border-radius:10px; }
 .chart-label-percent { fill:var(--muted); font-weight:400; }
 progress::-webkit-progress-value { background:var(--chart-2); }
 progress::-moz-progress-bar { background:var(--chart-2); }
+/* Adapt this layout for narrower screens. */
 @media(max-width:1100px) {
 .page-actions { gap:7px; }
 .theme-picker { gap:5px; }
 }
+/* Adapt this layout for narrower screens. */
 @media(max-width:760px) {
 header { gap:12px; }
 nav { grid-template-columns:repeat(3,minmax(0,1fr)); }
@@ -212,9 +215,11 @@ h1 { font-size:29px; }
 .chart-label { font-size:17px; }
 .slice-percent { font-size:14px; }
 }
+/* Adapt this layout for narrower screens. */
 @media(max-width:380px) {
 nav a { font-size:10px; padding:5px; gap:4px; }
 }
+/* Honor the operating system preference for less animation. */
 @media(prefers-reduced-motion:reduce) {
 .chart-slice, .slice-piece, .slice-halo { transition:none; }
 .slice-piece.is-selected { animation:none; }
@@ -224,6 +229,7 @@ nav a { font-size:10px; padding:5px; gap:4px; }
 .wordmark b { font-size:11px; letter-spacing:.4px; background:var(--subtle); color:var(--green); border:1px solid var(--line); padding:2px 5px; border-radius:6px; }
 .wordmark sup { font-size:9px; align-self:flex-start; margin-top:3px; letter-spacing:0; }
 .brand .brand-tagline { font-size:9px; letter-spacing:1.2px; padding-top:6px; }
+/* Adapt this layout for narrower screens. */
 @media(max-width:1100px) and (min-width:761px) {
 .brand { padding:0; }
 .brand .wordmark { font-size:18px; gap:3px; }
@@ -235,6 +241,7 @@ nav a { font-size:10px; padding:5px; gap:4px; }
 .transaction-actions:empty { display:none; }
 .transaction-actions button { font-size:11px; }
 .transaction-actions .delete-transaction { color:var(--error); }
+/* Adapt this layout for narrower screens. */
 @media(max-width:760px) {
 footer { padding-bottom:65px; }
 }
@@ -256,6 +263,7 @@ nav a { transition:background-color .2s,border-color .2s,color .2s,box-shadow .2
   from { transform:translateX(calc(var(--page-direction,1) * 64px)); }
   to { transform:translateX(0); }
 }
+/* Honor the operating system preference for less animation. */
 @media(prefers-reduced-motion:reduce) {
   @view-transition { navigation:none; }
   main,nav a[aria-current="page"] { view-transition-name:none; }

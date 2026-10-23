@@ -1,3 +1,4 @@
+// Chat policy regression checks with simulated Gemini responses. Verify that only validated in-scope replies reach the browser.
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {OFF_TOPIC_REPLY,CHAT_SYSTEM_PROMPT,CHAT_RESPONSE_SCHEMA,parseScopedReply} from '../server/chat-policy.mjs';

@@ -1,4 +1,6 @@
 @echo off
+REM Start the local Node server and open Budgetron. Keep this window open for AI chat.
+REM Prefer installed Node; fall back to the runtime bundled with Codex if available.
 setlocal
 cd /d "%~dp0"
 where node >nul 2>&1

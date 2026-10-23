@@ -1,3 +1,4 @@
+/* Home page styles. Shared typography, colors and controls come from css files/styles.css; this file handles this page's layout and responsive details. */
 .two-column { display:grid; grid-template-columns:1fr 1fr; gap:22px; }
 .chart-layout { display:flex; align-items:center; gap:24px; margin-top:20px; }
 .pie { width:160px; height:160px; border-radius:50%; background:var(--line); flex-shrink:0; position:relative; }
@@ -27,6 +28,7 @@
 .legend-button[aria-pressed="true"] { background:var(--subtle); border-color:var(--line); }
 .legend-button strong { margin-left:auto; }
 .overview-chart-detail { border-top:1px solid var(--line); margin:12px 0 5px; padding-top:12px; font-size:12px; color:var(--muted); }
+/* Adapt this layout for narrower screens. */
 @media(max-width:760px) {
 .overview-donut { width:min(100%,330px); }
 }
