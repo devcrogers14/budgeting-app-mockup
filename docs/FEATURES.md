@@ -34,7 +34,7 @@ Only purchases in the current month count as spending. Planned payments and cale
 
 ### Appearance and navigation
 
-- Separate HTML pages have sliding transitions, browser Back/Forward support, and reduced-motion handling. Ask Budgetron has a dedicated transition layer so it remains above moving page content whenever its visibility setting allows it.
+- Pages use a simple 120 ms, 6 px entry slide with normal browser navigation. There is no exit-animation wait, advanced transition mode, or transition settings control. Reduced-motion preferences disable the slide. Ask Budgetron stays above page content. See [TRANSITIONS.md](TRANSITIONS.md) for the CSS location.
 - Choose **Cream, Sage, Ocean, or Rose** and toggle **Dark Mode** on any page. Choices are remembered; the initial mode follows the device preference.
 - Both spending charts show category labels and percentages. Hover lifts a slice with a glow and shadow; clicking keeps it selected. Tab and Enter/Space also select slices.
 - Wallet cards lift and tilt on hover or remain raised when selected.
@@ -78,4 +78,4 @@ Run `node --test` from the project root. There are **15 individual checks** acro
 | `tests/chat-policy.test.mjs` | Five checks for accepting valid replies, rejecting malformed/off-topic output, and separating untrusted snapshots from trusted instructions. |
 | `tests/server.test.mjs` | Five checks for page assets, legacy URLs, private-file protection, chat response contracts, and invalid/cross-site requests. |
 
-Separate browser checks verified all six pages, mouse/touch dragging, position persistence, keyboard movement, Home-only visibility/restoration, position reset, phone bounds, chat layering during actual animated page switches, Back navigation, reduced-motion behavior, and the browser-to-server chat flow using a simulated provider reply. These browser checks are separate from `node --test`; simulated replies do not verify a live Gemini call or require an API key.
+Separate browser checks verified all six pages, mouse/touch dragging, position persistence, keyboard movement, Home-only visibility/restoration, position reset, phone bounds, chat layering during page switches, Back navigation, reduced-motion behavior, and the browser-to-server chat flow using a simulated provider reply. These browser checks are separate from `node --test`; simulated replies do not verify a live Gemini call or require an API key.
