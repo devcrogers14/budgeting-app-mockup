@@ -37,7 +37,7 @@
     if(destination.href===current.href){event.preventDefault();return;}
     if(reducedMotion.matches)return;
     if(isLeaving){event.preventDefault();return;}
-    const links=[...nav.querySelectorAll('a')];
+    const links=[...navigation.querySelectorAll('a')];
     const direction=links.indexOf(link)>=links.indexOf(navigation.querySelector('[aria-current="page"]'))?1:-1;
     document.documentElement.style.setProperty('--page-direction',String(direction));
     try{sessionStorage.setItem(transitionStorageKey,JSON.stringify({target:destination.href,direction,time:Date.now()}));}catch{}

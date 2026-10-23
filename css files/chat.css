@@ -85,3 +85,18 @@
 
 /* Keep the move control reachable when a large conversation overlaps its position. */
 .chat-launcher[aria-expanded="true"] { z-index:42; }
+
+/* Native page animations paint above normal document z-index layers. Give chat
+   its own transition snapshots so the button remains above the moving page. */
+.chat-launcher { view-transition-name:budgetron-launcher; }
+.budgetron-chat { view-transition-name:budgetron-conversation; }
+::view-transition-group(budgetron-conversation) { z-index:3; animation:none; }
+::view-transition-group(budgetron-launcher) { z-index:4; animation:none; }
+/* Show only the destination copy, without fading or sliding the fixed controls. */
+::view-transition-old(budgetron-launcher),
+::view-transition-old(budgetron-conversation) { display:none; }
+::view-transition-new(budgetron-launcher),
+::view-transition-new(budgetron-conversation) { animation:none; mix-blend-mode:normal; }
+@media(prefers-reduced-motion:reduce) {
+  .chat-launcher,.budgetron-chat { view-transition-name:none; }
+}
