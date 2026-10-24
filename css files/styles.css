@@ -1189,3 +1189,13 @@ summary:focus-visible {
 .confirmation-actions {
   margin-top: 22px;
 }
+
+
+/* Sliding selected-tab area: separate from page motion and normal text actions. */
+nav.has-sliding-highlight { position:relative; isolation:isolate; }
+.nav-selection-highlight { position:absolute; left:0; top:0; z-index:0; pointer-events:none; border:1px solid var(--line); border-radius:14px; background:var(--panel); }
+nav.has-sliding-highlight a { position:relative; z-index:1; }
+nav.has-sliding-highlight a[aria-current="page"] { background:transparent; border-color:transparent; }
+/* Keep the sidebar free of underlines while retaining normal keyboard outlines. */
+nav a[href]:not(.brand):not(.button-link):hover,
+nav a[href]:not(.brand):not(.button-link):focus-visible { text-decoration:none; }

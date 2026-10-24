@@ -34,7 +34,7 @@ Only purchases in the current month count as spending. Planned payments and cale
 
 ### Appearance and navigation
 
-- Pages use a simple 120 ms, 6 px entry slide with normal browser navigation. There is no exit-animation wait, advanced transition mode, or transition settings control. Reduced-motion preferences disable the slide. Ask Budgetron stays above page content. See [TRANSITIONS.md](TRANSITIONS.md) for the CSS location.
+- The selected sidebar background slides between tabs in 180 ms, and sidebar links do not underline on hover or focus. Pages use a simple 120 ms, 6 px entry slide with normal browser navigation. There is no exit-animation wait, advanced transition mode, or transition settings control. Reduced-motion preferences disable the slide. Ask Budgetron stays above page content. See [TRANSITIONS.md](TRANSITIONS.md) for the CSS location.
 - Choose **Cream, Sage, Ocean, or Rose** and toggle **Dark Mode** on any page. Choices are remembered; the initial mode follows the device preference.
 - Both spending charts show category labels and percentages. Hover lifts a slice with a glow and shadow; clicking keeps it selected. Tab and Enter/Space also select slices.
 - Wallet cards lift and tilt on hover or remain raised when selected.
