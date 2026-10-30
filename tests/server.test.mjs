@@ -6,6 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {Script} from 'node:vm';
 import {once} from 'node:events';
 import {createBudgetronServer} from '../server/server.mjs';
+import {OFF_TOPIC_REPLY} from '../server/chat-policy.mjs';
 
 const root = new URL('../',import.meta.url);
 const pages={index:'home',goals:'goals',accounts:'accounts',pie:'spending-chart',spending:'transactions',calendar:'calendar'};
@@ -79,4 +80,32 @@ test('organized website: pages, shared assets, old links, and chat API',async(te
     assert.equal((await post(JSON.stringify({messages:[]}))).status,400);
     assert.equal((await post(JSON.stringify({messages:[{role:'user',content:'Hello'}]}),'http://example.com')).status,403);
   });
+});
+
+
+// Prove quota savings at the API boundary, rather than just matching filter keywords.
+test('local refusals skip provider/configuration and preserve all ten model requests',async(testContext)=>{
+  let providerCalls=0,settingsReads=0;
+  const server=createBudgetronServer({
+    loadSettings:async()=>{settingsReads++;return {configured:true,key:'test-only',model:'gemini-test'};},
+    generateReply:async()=>{providerCalls++;return 'Budget answer';},
+  });
+  server.listen(0,'127.0.0.1');await once(server,'listening');
+  testContext.after(async()=>{server.closeAllConnections();await new Promise(resolve=>server.close(resolve));});
+  const post=question=>fetch(`http://127.0.0.1:${server.address().port}/api/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:question}]})});
+  for(let index=0;index<12;index++) {
+    const response=await post('Give me a cake recipe');assert.equal(response.status,200);assert.equal((await response.json()).reply,OFF_TOPIC_REPLY);
+  }
+  assert.equal(providerCalls,0);assert.equal(settingsReads,0);
+  for(let index=0;index<10;index++)assert.equal((await post('How is my budget?')).status,200);
+  assert.equal(providerCalls,10);
+  assert.equal((await post('How is my budget?')).status,429);
+});
+
+test('local refusals work without a configured Gemini key',async(testContext)=>{
+  const server=createBudgetronServer({loadSettings:async()=>({configured:false}),generateReply:async()=>{throw new Error('Provider must not be called');}});
+  server.listen(0,'127.0.0.1');await once(server,'listening');
+  testContext.after(async()=>{server.closeAllConnections();await new Promise(resolve=>server.close(resolve));});
+  const response=await fetch(`http://127.0.0.1:${server.address().port}/api/chat`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:[{role:'user',content:'Tell me a joke'}]})});
+  assert.equal(response.status,200);assert.equal((await response.json()).reply,OFF_TOPIC_REPLY);
 });

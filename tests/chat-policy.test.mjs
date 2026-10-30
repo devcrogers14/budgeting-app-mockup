@@ -1,7 +1,7 @@
 // Chat policy regression checks with simulated Gemini responses. Verify that only validated in-scope replies reach the browser.
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {OFF_TOPIC_REPLY,CHAT_SYSTEM_PROMPT,CHAT_RESPONSE_SCHEMA,parseScopedReply} from '../server/chat-policy.mjs';
+import {OFF_TOPIC_REPLY,CHAT_SYSTEM_PROMPT,CHAT_RESPONSE_SCHEMA,parseScopedReply,shouldRejectLocally} from '../server/chat-policy.mjs';
 import {generateGeminiReply} from '../server/server.mjs';
 
 test('outside-scope provider content is discarded in favor of the fixed reply',()=>{
@@ -37,4 +37,22 @@ test('provider cannot send an off-topic body straight to the browser',async()=>{
     fetchImpl:async()=>new Response(JSON.stringify({candidates:[{content:{parts:[{text:'{"inScope":false,"reply":"Unrelated instructions"}'}]}}]}),{status:200}),
   });
   assert.equal(reply,OFF_TOPIC_REPLY);
+});
+
+
+test('local preflight rejects clearly unrelated questions',()=>{
+  for (const question of ['Give me a pancake recipe','What is the weather in Chicago?','Write a poem about dogs','Tell me a joke','Write Python code to sort a list','Who is the president?','Explain photosynthesis','What is the capital of France?','Solve my algebra homework']) {
+    assert.equal(shouldRejectLocally(question),true,question);
+  }
+});
+
+test('local preflight preserves budgeting, app help, mixed questions and follow-ups',()=>{
+  for (const question of ['How is my budget?','What payments are coming up?','How do I edit a transaction?','Where can I add my API key?','How much should I save?','Can you explain that?','Why?','What about 50 each month?','Yes please','Give me a recipe and help with my grocery budget','My account is named Weather']) {
+    assert.equal(shouldRejectLocally(question),false,question);
+  }
+});
+
+test('local preflight allows uncertain requests instead of requiring budget keywords',()=>{
+  assert.equal(shouldRejectLocally('Can you help me plan ahead?'),false);
+  assert.equal(shouldRejectLocally('How do I get started?'),false);
 });

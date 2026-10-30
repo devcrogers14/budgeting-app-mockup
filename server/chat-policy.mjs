@@ -51,3 +51,23 @@ export function parseScopedReply(text) {
   const error=new Error('Budgetron could not verify this reply. Please ask an app or budgeting question again.');
   error.status=502;throw error;
 }
+
+
+// Cheap, conservative preflight: reject obvious unrelated topics without any model call.
+// Uncertain requests and short follow-ups pass through to Gemini's existing scope policy.
+export function shouldRejectLocally(message) {
+  const question = message.normalize('NFKC').toLowerCase().replace(/\s+/g,' ').trim();
+  // Budget/app language may indicate a relevant or mixed request. Let the model assess it.
+  const budgetOrAppTopic = /\b(?:budget(?:ron|ing|s)?|spend(?:ing|s|t)?|sav(?:e|es|ed|ing|ings)|income|money|dollars?|accounts?|banks?|allocat(?:e|ion|ions)|transfers?|credit|debt|bills?|payments?|purchases?|transactions?|goals?|expenses?|rent|groceries|emergency fund|calendar|pie chart|themes?|dark mode|light mode|sidebar|tabs?|app|website|gemini|api key|chatbot)\b|[$€£]/;
+  if (budgetOrAppTopic.test(question)) return false;
+
+  // Match recognizable off-topic requests rather than treating missing keywords as rejection.
+  const unrelatedRequests = [
+    /\b(?:recipe|recipes|weather|horoscope|horoscopes|astrology)\b/,
+    /\b(?:write|compose|create|tell|generate)\b.*\b(?:poem|poetry|joke|jokes|story|stories|song|lyrics|rap)\b/,
+    /\b(?:write|debug|generate|fix|explain)\b.*\b(?:code|python|javascript|java|c\+\+|sql|html|css)\b/,
+    /\b(?:who|what|where|when|tell|explain|describe)\b.*\b(?:president|prime minister|election|elections|politics|dinosaurs?|photosynthesis|world war|capital of|football|basketball|soccer|baseball)\b/,
+    /\b(?:solve|do|finish|answer)\b.*\b(?:homework|essay|algebra|calculus|trigonometry)\b/,
+  ];
+  return unrelatedRequests.some(pattern => pattern.test(question));
+}

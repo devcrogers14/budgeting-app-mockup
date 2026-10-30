@@ -1,6 +1,6 @@
 // Local HTTP server: serve explicitly allowed website files and proxy validated chat requests to Gemini. Environment credentials remain private; tests inject fake providers instead of spending API quota.
 import http from 'node:http';
-import {CHAT_SYSTEM_PROMPT,CHAT_RESPONSE_SCHEMA,parseScopedReply} from './chat-policy.mjs';
+import {CHAT_SYSTEM_PROMPT,CHAT_RESPONSE_SCHEMA,parseScopedReply,shouldRejectLocally,OFF_TOPIC_REPLY} from './chat-policy.mjs';
 import {existsSync} from 'node:fs';
 import {spawn} from 'node:child_process';
 import { readFile } from 'node:fs/promises';
@@ -80,6 +80,8 @@ export function createBudgetronServer({generateReply=generateGeminiReply,loadSet
         if (messages.some((message)=>!message || !['user','assistant'].includes(message.role) || typeof message.content !== 'string' || !message.content.trim() || message.content.length>4000) || messages.at(-1).role !== 'user') return sendJson(400,{error:'Send a question of up to 4,000 characters.'});
         const budget=input.budget ?? null;
         if (budget !== null && (typeof budget !== 'object' || Array.isArray(budget) || JSON.stringify(budget).length>16000)) return sendJson(400,{error:'The budget snapshot is too large. Turn off budget sharing and try again.'});
+        // Local refusals require no API key and do not consume the model-call rate limit.
+        if (shouldRejectLocally(messages.at(-1).content)) return sendJson(200,{reply:OFF_TOPIC_REPLY});
         const config=await loadSettings();
         if (!config.configured) return sendJson(503,{error:'Add your Gemini API key to .env and save the file. Then send your question again.',code:'KEY_MISSING'});
         if (!/^gemini-[a-zA-Z0-9._-]+$/.test(config.model)) return sendJson(503,{error:'Set a valid GEMINI_MODEL in .env.'});

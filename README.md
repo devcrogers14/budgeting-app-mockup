@@ -47,6 +47,8 @@ This is a class-project mockup using pretend money. It does not connect to real 
 
 Budgetron helps only with this app and the budget tracked in it: accounts, spending, allocations, goals, calendar entries, and using its features. Off-topic questions receive a fixed reply directing the user back to those topics. Mixed requests receive help with only their app-budget portion.
 
+A conservative local preflight in `server/chat-policy.mjs` rejects clearly unrelated requests before contacting Gemini, so those refusals use no provider quota. Uncertain questions and budget-related or mixed requests still reach the model. This is a simple heuristic, not a complete topic classifier.
+
 The server owns the policy in `server/chat-policy.mjs`, requests a structured scope decision with each answer, and validates it before returning text. It discards answers marked outside scope and rejects malformed output. Budget snapshots are supplied as untrusted reference data, separately from the trusted system instructions. These model-based guardrails reduce off-topic replies; they are not a mathematical guarantee against every possible prompt.
 
 

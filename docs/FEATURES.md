@@ -1,6 +1,6 @@
 # Budgetron 3000™ — Feature Guide
 
-Updated October 23, 2026. This is a class-project budgeting MVP using pretend money, with optional real AI chat.
+Updated October 30, 2026. This is a class-project budgeting MVP using pretend money, with optional real AI chat.
 
 ## Open the app
 
@@ -54,6 +54,8 @@ Open chat → **Position & visibility**:
 
 **Include my sample budget** sends a fresh snapshot of income, category totals, accounts, goals, recent purchases, upcoming payments, and the transfer rule. Turn it off to ask app-help questions without sharing the snapshot. Questions must still concern Budgetron or budgeting within this app.
 
+Before contacting Gemini, a local server filter rejects clearly unrelated requests such as recipes, weather, poems, unrelated coding, and homework. These local refusals make no Gemini request, use no provider tokens/quota, and do not consume the app's ten-model-request allowance. The filter is intentionally permissive: budgeting/app language, mixed questions, and uncertain follow-ups pass through to Gemini. It will miss some off-topic requests and may occasionally misclassify one.
+
 The assistant explains app features and the tracked budget. It cannot edit records, connect banks, move money, or browse the web. Off-topic replies are replaced with a fixed app-focused message. Server-side instructions and structured-response validation reduce off-topic answers but do not guarantee model behavior.
 
 Messages and any included snapshot are sent to Google. AI replies can be wrong. Model availability, quotas, pricing, and data handling depend on the Google project and service terms; consult [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing) and [API key setup](https://ai.google.dev/gemini-api/docs/api-key). The model is configurable through `GEMINI_MODEL`; the app does not enable billing or switch models automatically.
@@ -70,12 +72,12 @@ The local server keeps the API key outside browser code, blocks private files an
 
 ## Verification
 
-Run `node --test` from the project root. There are **15 individual checks** across three files; Node reports **16** because it also counts the parent server test group.
+Run `node --test` from the project root. There are **20 individual checks** across three files; Node reports **21** because it also counts the parent server test group.
 
 | Test file | Coverage |
 | --- | --- |
 | `tests/goal-state.test.mjs` | Five checks for goal selection/deletion, preservation of money records, empty-state persistence, and migration of older saves. |
-| `tests/chat-policy.test.mjs` | Five checks for accepting valid replies, rejecting malformed/off-topic output, and separating untrusted snapshots from trusted instructions. |
-| `tests/server.test.mjs` | Five checks for page assets, legacy URLs, private-file protection, chat response contracts, and invalid/cross-site requests. |
+| `tests/chat-policy.test.mjs` | Eight checks for valid replies, malformed/off-topic output, separation of snapshots from trusted instructions, and conservative local rejection/preservation of follow-ups. |
+| `tests/server.test.mjs` | Seven checks for page assets, legacy URLs, private-file protection, chat contracts, invalid/cross-site requests, and proof that local refusals skip the provider/configuration and preserve model-call quota. |
 
 Separate browser checks verified all six pages, mouse/touch dragging, position persistence, keyboard movement, Home-only visibility/restoration, position reset, phone bounds, chat layering during page switches, Back navigation, reduced-motion behavior, and the browser-to-server chat flow using a simulated provider reply. These browser checks are separate from `node --test`; simulated replies do not verify a live Gemini call or require an API key.
